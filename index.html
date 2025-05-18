@@ -1,0 +1,2660 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Концепт</title>
+    <style>
+        @font-face {
+            font-family: 'Druk Wide';
+            src: url('assets/font/Druk-Wide-Cy-Web-Medium-Regular.ttf') format('truetype'),
+                 url('assets/font/DrukWide-Medium-Trial.otf') format('opentype');
+            font-weight: 500;
+            font-style: normal;
+            font-display: swap;
+        }
+        
+        @font-face {
+            font-family: 'Druk Wide';
+            src: url('assets/font/DrukWide-Bold-Trial.otf') format('opentype');
+            font-weight: bold;
+            font-style: normal;
+            font-display: swap;
+        }
+        
+        @font-face {
+            font-family: 'Druk Wide';
+            src: url('assets/font/DrukWide-Super-Trial.otf') format('opentype');
+            font-weight: 900;
+            font-style: normal;
+            font-display: swap;
+        }
+        
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        :root {
+            --primary-color: #000000;
+            --secondary-color: #ffffff;
+            --accent-color: #f24646;
+            --text-color: #F8F8F8;
+            --grey-color: #f6f6f6;
+            --dark-grey: #333333;
+            --dark-bg: #0F0F0F;
+            --spacing: 2rem;
+            --font-primary: 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
+            --font-heading: 'Druk Wide', Impact, sans-serif;
+            --border-radius: 14px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            font-weight: 300; /* light */
+            line-height: 1.2;   /* 1.2 */
+            color: var(--text-color);
+            background-color: var(--dark-bg);
+            font-size: 0; /* "Хак" для удаления микро-отступов от пробелов/текстовых узлов */
+        }
+
+        strong {
+            font-weight: 400; /* regular */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 var(--spacing);
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(15, 15, 15, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .header-inner-container {
+            width: 100%;
+            max-width: 1100px;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-logo-text {
+            font-family: var(--font-heading);
+            font-size: 1.8rem;
+            color: var(--secondary-color);
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--secondary-color);
+            text-decoration: none;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            padding: 10px 0;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .fullscreen-section {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-end;
+            padding: 0;
+            margin: 0;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .fullscreen-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            z-index: 1;
+        }
+
+        .content-overlay {
+            position: relative;
+            z-index: 2;
+            width: 50%;
+            padding: 6rem;
+            text-align: left;
+            margin-top: 15vh;
+        }
+
+        .scene-tag {
+            font-family: var(--font-primary);
+            text-transform: uppercase;
+            font-size: 1rem; /* Default size */
+            letter-spacing: 2px;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Specific style for the intro section's scene tag */
+        #intro .scene-tag {
+            font-family: var(--font-heading); /* Druk Wide */
+            font-size: 3.5rem; /* Increased further */
+            line-height: 1.1;
+            color: var(--secondary-color); /* Ensure white */
+            margin-bottom: 1rem; /* Reduced space to description */
+            text-align: center; /* Ensure title lines are centered */
+        }
+        
+        .scene-heading {
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            font-size: 4rem;
+            line-height: 1;
+            letter-spacing: 0;
+            margin-bottom: 3rem;
+            color: var(--secondary-color);
+        }
+
+        .intro-main-heading {
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            font-size: 5rem;
+            line-height: 1;
+            letter-spacing: 0;
+            margin-bottom: 3rem;
+            color: var(--secondary-color);
+        }
+
+        .scene-description {
+            font-size: 1.6rem; /* Increased size */
+            color: var(--secondary-color); /* Ensure white */
+            line-height: 1.7;
+            max-width: 600px; /* Adjusted width to be similar to title above */
+            /* margin: 0.5rem auto 2rem auto; */ /* Adjusted margin */
+            margin: 0.5rem auto 2rem auto; /* Reduced top margin slightly */
+            text-align: center; /* Explicitly center text */
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            bottom: 3rem;
+            right: 3rem;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .dark-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.4) 60%);
+            z-index: 1;
+        }
+
+        @media (max-width: 1024px) {
+            .content-overlay {
+                width: 60%;
+                padding: 4rem;
+            }
+            
+            .scene-heading {
+                font-size: 2.8rem;
+            }
+            
+            .intro-main-heading {
+                font-size: 3.5rem;
+            }
+            
+            .about-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .sound-section {
+                flex-direction: column;
+            }
+            
+            .sound-image {
+                height: 50vh;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-overlay {
+                width: 100%;
+                padding: 3rem;
+                background: rgba(0,0,0,0.7);
+                backdrop-filter: blur(5px);
+            }
+            
+            .scene-heading {
+                font-size: 2.4rem;
+            }
+            
+            .intro-main-heading {
+                font-size: 3rem;
+            }
+            
+            nav ul {
+                display: none;
+            }
+            
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .sound-content {
+                padding: 3rem;
+            }
+        }
+
+        .scene {
+            margin-bottom: 60px;
+            position: relative;
+            background-color: var(--grey-color);
+            border-radius: var(--border-radius);
+            padding: 40px;
+        }
+
+        .scene-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .scene-title {
+            font-size: 24px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .scene-timing {
+            font-size: 16px;
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+
+        .shot {
+            margin-bottom: 30px;
+            padding: 30px;
+            background: var(--secondary-color);
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .shot:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .shot-number {
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .shot-description {
+            margin-bottom: 20px;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .dialogue {
+            font-style: italic;
+            color: var(--primary-color);
+            margin: 20px 0;
+            padding: 20px;
+            border-left: 4px solid var(--accent-color);
+            background: rgba(242, 70, 70, 0.05);
+        }
+
+        .solutions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .solution-card {
+            background-color: var(--grey-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .solution-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .solution-image {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .solution-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .solution-card:hover .solution-image img {
+            transform: scale(1.05);
+        }
+
+        .solution-content {
+            padding: 25px;
+        }
+
+        .solution-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .solution-description {
+            font-size: 16px;
+            color: var(--text-color);
+            margin-bottom: 20px;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            aspect-ratio: 16/9;
+            cursor: pointer;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.07) rotate(1deg);
+        }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transform: translateY(30px);
+        }
+
+        .gallery-item:hover .gallery-caption {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .gallery-scene {
+            font-family: var(--font-heading);
+            text-transform: uppercase;
+            font-size: 12px;
+            margin-bottom: 8px;
+            color: var(--accent-color);
+        }
+
+        .gallery-title {
+            font-family: var(--font-heading);
+            font-size: 18px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .gallery-text {
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        /* Стили для просмотрщика */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            display: none;
+        }
+
+        .lightbox.active {
+            display: block;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 10000;
+        }
+
+        .lightbox-main {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 100px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox-image {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+
+        .lightbox-thumbnails {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            overflow-x: auto;
+        }
+
+        .lightbox-thumbnail {
+            width: 80px;
+            height: 60px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-thumbnail.active {
+            border-color: white;
+            opacity: 1;
+        }
+
+        .lightbox-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 2px;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            bottom: 120px;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            z-index: 10000;
+        }
+
+        .lightbox-prev,
+        .lightbox-next {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .lightbox-counter {
+            color: white;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+        }
+
+        .contact-section {
+            background-color: var(--grey-color);
+            padding: 80px 0;
+            border-radius: var(--border-radius);
+        }
+
+        .contact-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 50px;
+        }
+
+        .contact-info {
+            flex: 1;
+        }
+
+        .contact-form {
+            flex: 1;
+            background-color: var(--secondary-color);
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .contact-info-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--primary-color);
+        }
+
+        .contact-detail {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        footer {
+            background-color: rgba(15, 15, 15, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: var(--secondary-color);
+            padding: 2rem 0 1rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+            align-items: start;
+        }
+
+        .footer-left {
+            flex: 1;
+        }
+
+        .footer-right {
+            flex: 1;
+        }
+
+        .footer-logo {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .footer-nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        .footer-nav a {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .footer-nav a:hover {
+            color: var(--accent-color);
+        }
+
+        .footer-bottom {
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .footer-logo {
+                font-size: 1.5rem;
+            }
+        }
+
+        .technical-list {
+            list-style-type: disc;
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+        
+        .technical-list li {
+            margin-bottom: 8px;
+            line-height: 1.6;
+        }
+
+        .narrative-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            margin-bottom: 40px;
+            height: 400px;
+        }
+
+        .narrative-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .narrative-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            padding: 60px 30px 30px;
+            color: white;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+
+        .narrative-scene {
+            font-family: var(--font-primary);
+            text-transform: uppercase;
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: var(--accent-color);
+        }
+
+        .narrative-title {
+            font-family: var(--font-heading);
+            font-size: 28px;
+            margin-bottom: 15px;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        .narrative-description {
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 800px;
+        }
+
+        .about-section {
+            /* padding: 4rem 0; */ /* Original padding */
+            /* padding: 1rem 0 4rem 0; */ /* Reduced top padding, kept bottom */
+            padding: 0 0 4rem 0; /* Set top padding to 0 */
+            background-color: var(--dark-bg);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-heading {
+            font-family: 'Druk Wide', Impact, sans-serif;
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+        }
+
+        .about-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            max-width: 800px;
+        }
+
+        .about-grid {
+            display: grid;
+            /* grid-template-columns: repeat(3, 1fr); */
+            grid-template-columns: 0.9fr 1.2fr 0.9fr; /* Middle item wider */
+            gap: 2rem;
+            margin-top: 4rem;
+            align-items: stretch; /* Make items same height if content allows */
+        }
+
+        .about-item {
+            background-color: rgba(255,255,255,0.05);
+            padding: 2rem;
+            border-radius: 5px;
+        }
+
+        .about-item-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+            text-transform: uppercase;
+        }
+
+        .sound-section {
+            display: flex;
+            align-items: flex-start;
+            height: 100vh;
+            background-color: var(--dark-bg);
+            margin: 0;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .sound-content {
+            flex: 1;
+            padding: 6rem;
+        }
+
+        .sound-image {
+            flex: 1;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .sound-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .video-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            margin-top: 2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .video-button:hover {
+            transform: scale(1.1);
+        }
+
+        .video-button svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--secondary-color);
+        }
+
+        .multiple-images {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            height: 100%;
+            width: 50%;
+        }
+
+        .multiple-images img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .grid-circle {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 2px solid var(--secondary-color);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+        
+        .split-section {
+            display: flex;
+            height: 100vh;
+            margin: 0;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .split-image {
+            flex: 1;
+            height: 100vh;
+        }
+        
+        .split-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .split-content {
+            flex: 1;
+            padding: 6rem;
+            background-color: var(--dark-bg);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Стили для слайдера */
+        .slider-container {
+            position: relative;
+            width: 100%;
+            margin: 50px 0;
+            overflow: hidden;
+        }
+        
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease;
+            height: 600px;
+        }
+        
+        .slide {
+            flex: 0 0 100%;
+            height: 100%;
+        }
+        
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: var(--border-radius);
+        }
+        
+        .slider-prev, .slider-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+            z-index: 10;
+        }
+        
+        .slider-prev {
+            left: 20px;
+        }
+        
+        .slider-next {
+            right: 20px;
+        }
+        
+        .slider-prev:hover, .slider-next:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+        
+        .slider-thumbnails {
+            display: flex;
+            /* justify-content: center; */ /* Changed */
+            justify-content: flex-start; /* Align thumbnails to the start */
+            gap: 15px; /* Slightly increased gap */
+            margin-top: 20px;
+            overflow-x: auto; /* Enable horizontal scrolling */
+            padding-bottom: 15px; /* Space for scrollbar */
+            -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+        }
+        
+        .thumbnail {
+            width: 150px; /* Increased width */
+            height: 100px; /* Increased height */
+            overflow: hidden;
+            cursor: pointer;
+            border: 3px solid transparent;
+            border-radius: 8px; /* Slightly more rounded */
+            opacity: 0.65; /* Adjusted opacity */
+            transition: all 0.3s;
+            flex-shrink: 0; /* Prevent shrinking in flex container */
+        }
+        
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .thumbnail.active {
+            border-color: var(--accent-color);
+            opacity: 1;
+        }
+        
+        .thumbnail:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .slider {
+                height: 300px;
+            }
+            
+            .slider-thumbnails {
+                overflow-x: auto;
+                padding-bottom: 10px;
+                justify-content: flex-start;
+            }
+        }
+
+        /* Стили для дополнительных элементов управления */
+        .references-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        
+        .reference-close-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: none; /* Скрываем кнопку по умолчанию */
+        }
+        
+        .reference-close-btn.active {
+            display: block; /* Показываем только когда открыт полноэкранный режим */
+        }
+        
+        .reference-close-btn:hover {
+            background: #d03535;
+            transform: scale(1.05);
+        }
+        
+        .reference-counter {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+        
+        .reference-filename {
+            color: var(--text-color);
+            font-size: 14px;
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        /* Дополнительные стили для полноэкранного режима */
+        .fullscreen-view {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 9999;
+            display: none;
+        }
+        
+        .fullscreen-view.active {
+            display: block;
+        }
+        
+        .fullscreen-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+        }
+        
+        .fullscreen-image-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: calc(100% - 200px);
+            height: calc(100% - 200px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .fullscreen-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .fullscreen-nav {
+            position: fixed;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            z-index: 10000;
+        }
+        
+        .fullscreen-prev,
+        .fullscreen-next {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 20px;
+            color: white;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .fullscreen-counter {
+            color: white;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+        }
+        
+        .thumbnails-container {
+            position: fixed;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            overflow-x: auto;
+            max-width: 80%;
+        }
+        
+        .thumbnail {
+            width: 100px;
+            height: 60px;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .thumbnail.active {
+            border-color: var(--accent-color);
+        }
+        
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+
+        /* Адаптивность для мобильных устройств */
+        @media (max-width: 768px) {
+            .references-controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .fullscreen-nav {
+                flex-direction: row;
+                width: 100%;
+                justify-content: center;
+            }
+
+            /* Costumes gallery mobile adjustments */
+            #costumes .gallery-item {
+                width: 180px; /* Adjusted for smaller screens in a row */
+                max-width: none; /* Remove max-width for horizontal scroll */
+                height: 300px; 
+            }
+            #costumes .gallery-item:hover {
+                width: 220px; /* Adjusted hover width */
+                max-width: none; /* Remove max-width for horizontal scroll */
+            }
+        }
+
+        /* Specific styles for Costumes Gallery */
+        #costumes .gallery-container.costumes-gallery-container {
+            display: flex;
+            /* flex-direction: column; */ /* Changed to row */
+            flex-direction: row;
+            /* align-items: center; */ /* Changed for row layout */
+            align-items: flex-start; /* Align items to the top of the row */
+            justify-content: flex-start; /* Start items from the left */
+            gap: 30px; /* Adjust gap as needed, was 40px */
+            padding: 20px; /* Add padding around the gallery for scrolling */
+            overflow-x: auto; /* Enable horizontal scrolling */
+            overflow-y: hidden; /* Prevent vertical scrolling for the gallery itself */
+            min-height: 520px; /* Ensure enough height for items + padding/scrollbars */
+        }
+
+        #costumes .gallery-item {
+            width: 220px; /* Initial narrow width, adjusted for horizontal layout */
+            height: 380px; /* Vertically elongated, adjusted for horizontal layout */
+            flex-shrink: 0; /* Prevent items from shrinking if the row is too narrow */
+            aspect-ratio: auto; /* Override general gallery-item aspect-ratio */
+            transition: width 0.35s ease-in-out, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        #costumes .gallery-item:hover {
+            width: 280px; /* Expand width on hover, adjusted for horizontal layout */
+            transform: translateY(-5px); 
+        }
+
+        #costumes .gallery-item img {
+            /* image fills the item, object-fit:cover is already there */
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        #costumes .gallery-item:hover img {
+            transform: scale(1.05); /* Slightly simpler scale on image hover */
+        }
+        
+        /* Ensure caption still works well, though it likely will */
+        #costumes .gallery-item .gallery-caption {
+            /* Styles inherited from general .gallery-caption are likely fine */
+        }
+
+        /* Preloader Styles */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--dark-bg, #0F0F0F);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100000;
+            opacity: 1;
+            transition: opacity 0.5s ease-out, transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(0);
+        }
+
+        .preloader.hidden {
+            opacity: 0;
+            transform: translateY(-100%);
+            pointer-events: none;
+        }
+
+        .preloader-logo {
+            font-family: var(--font-heading, 'Druk Wide', Impact, sans-serif);
+            /* font-size: 3rem; Adjusted below for individual spans */
+            text-transform: uppercase;
+            opacity: 0;
+            transform: scale(0.5);
+            animation: preloadLogoAnim 1s 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            display: flex; /* For centering and stacking children */
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.1; /* Adjust if necessary for stacked text */
+        }
+
+        .preloader-logo span { /* Common style for spans */
+            font-size: 3rem; /* Individual font size for each line */
+            display: block;
+        }
+
+        .preloader-logo .preloader-text-red {
+            color: var(--accent-color, #f24646);
+        }
+
+        .preloader-logo .preloader-text-white {
+            color: var(--secondary-color, #ffffff);
+        }
+
+        @keyframes preloadLogoAnim {
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        /* Initial states for scroll animations */
+        .scroll-animate {
+            opacity: 0;
+            transition: opacity 0.7s cubic-bezier(0.4,0,0.2,1), transform 0.7s cubic-bezier(0.4,0,0.2,1);
+        }
+        
+        .scroll-animate.fade-in {
+            transform: translateY(0); /* Base for only fade */
+        }
+        
+        .scroll-animate.slide-up {
+            transform: translateY(40px);
+        }
+        
+        .scroll-animate.scale-in {
+            transform: scale(0.95);
+        }
+        
+        .scroll-animate.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Custom Cursor Styles */
+        .custom-cursor {
+            position: fixed;
+            left: 0;
+            top: 0;
+            pointer-events: none;
+            z-index: 99999;
+            opacity: 0; /* Initially hidden, shown by JS */
+            transition: opacity 0.3s ease;
+        }
+        .custom-cursor.visible {
+            opacity: 1;
+        }
+
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: var(--accent-color, #f24646);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            transition: transform 0.1s ease-out; /* Faster dot movement */
+        }
+
+        .cursor-outline {
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--accent-color, #f24646);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            position: absolute;
+            transition: width 0.3s cubic-bezier(0.4,0,0.2,1), height 0.3s cubic-bezier(0.4,0,0.2,1), background-color 0.3s cubic-bezier(0.4,0,0.2,1), border-color 0.3s cubic-bezier(0.4,0,0.2,1);
+        }
+        
+        .custom-cursor.hover-interactive .cursor-outline {
+            width: 45px;
+            height: 45px;
+            background-color: rgba(242, 70, 70, 0.2); /* Accent color with alpha */
+            border-color: transparent;
+        }
+        .custom-cursor.text-hover .cursor-outline {
+            width: 5px; /* Turns into a thin bar */
+            height: 35px;
+            border-radius: 2px;
+            background-color: var(--accent-color, #f24646);
+            border-color: transparent;
+        }
+
+        /* Styles for Detailed Scenario Section */
+        .scenario-part {
+            background-color: rgba(255,255,255,0.03);
+            padding: 2rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .scenario-part-title { /* This is an H3 in current HTML, will be H4 in new */
+            font-family: var(--font-heading);
+            font-size: 1.5rem; /* Adjusted for H4 */
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+        }
+        .scenario-part .scenario-description p {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        .scenario-part .scenario-description strong { /* For Кадр X and AI-эффект X */
+            color: var(--secondary-color);
+            font-weight: 500;
+        }
+        .scenario-part .voiceover {
+            font-style: italic;
+            color: var(--text-color); 
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-left: 3px solid var(--accent-color);
+            background-color: rgba(0,0,0,0.15);
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        .scenario-part .voiceover strong { /* Ensure "ЗАКАДРОВЫЙ ГОЛОС" text itself is bold */
+            font-weight: bold;
+         }
+        .scenario-part .ai-effect-description {
+             margin-top: 0.5rem;
+             margin-bottom: 1rem;
+             font-size: 0.95rem;
+             color: rgba(255,255,255,0.8);
+        }
+         .scenario-part .ai-effect-description strong {
+             color: var(--accent-color); /* For "AI-эффект X:" prefix */
+         }
+        .scenario-part ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-bottom: 1rem;
+            padding-left: 10px; /* Added padding for better alignment */
+        }
+        .scenario-part ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* New Styles for Scenario Versions and Technical Recommendations */
+        .scenario-block-separator { /* For potential images later */
+            margin: 3rem auto; /* Centered */
+            max-width: 80%; /* Limit width of separator image container */
+            text-align: center;
+        }
+        .scenario-block-separator img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .scenario-subtitle { /* The italic P tag "Документальный ролик..." */
+            font-style: italic;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2.5rem;
+            text-align: center; 
+            font-size: 1.1rem;
+        }
+        
+        .scenario-version-block, .scenario-technical-block {
+            margin-top: 3rem;
+            padding-top: 1rem; /* Reduced from 2rem to look less spaced from main title */
+           /* border-top: 2px solid rgba(255,255,255,0.1); Removed for now, will be separated by images */
+        }
+         .scenario-version-block:first-of-type {
+             margin-top: 2rem; /* First block after main title */
+         }
+
+
+        .scenario-version-title, .scenario-technical-title { /* For H3s */
+            font-family: var(--font-heading);
+            font-size: 2.2rem; 
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            text-align: left;
+        }
+        
+        .technical-recommendation-item { 
+            margin-bottom: 2.5rem; /* Increased spacing between recommendation items */
+            padding: 1.5rem;
+            background-color: rgba(255,255,255,0.02); /* Subtle background */
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .technical-recommendation-item h4 { /* For H4s like "Скорость монтажа и ритм:" */
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .technical-recommendation-item ul {
+            list-style-type: disc;
+            margin-left: 20px; /* Standard margin for ul */
+            padding-left: 10px; /* Ensure items are not too far left */
+            margin-bottom: 1rem;
+        }
+        .technical-recommendation-item ul li {
+            margin-bottom: 0.75rem; /* Slightly more spacing for readability */
+            line-height: 1.7;
+        }
+        .technical-recommendation-item em { /* For italic text like in final slogan */
+             display: block; /* Make it a block for better spacing if needed */
+             margin-top: 1rem;
+             font-size: 0.95rem;
+             color: rgba(255,255,255,0.7);
+        }
+
+        /* New Styles for Scenario Slides */
+        .scenario-slide {
+            position: relative;
+            min-height: 80vh; /* Substantial height */
+            width: 100%;
+            display: flex; /* For aligning content left/right */
+            overflow: hidden;
+            margin-bottom: 1rem; /* Space between slides */
+            background-color: var(--dark-bg); /* Fallback */
+        }
+
+        .scenario-slide.content-left {
+            justify-content: flex-start;
+        }
+
+        .scenario-slide.content-right {
+            justify-content: flex-end;
+        }
+
+        .scenario-slide-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .scenario-slide-dark-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2; /* Above background, below content */
+        }
+        
+        .scenario-slide.content-left .scenario-slide-dark-overlay {
+             background: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.1) 80%, transparent 100%);
+        }
+
+        .scenario-slide.content-right .scenario-slide-dark-overlay {
+             background: linear-gradient(to left, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.1) 80%, transparent 100%);
+        }
+
+        .scenario-slide-content {
+            position: relative;
+            z-index: 3;
+            width: 48%; /* Content area width */
+            padding: 3rem 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Vertically center content */
+            height: auto; /* Allow content to define height, min-height on parent */
+            box-sizing: border-box;
+            color: var(--text-color); /* Ensure text is light */
+        }
+        
+        /* Adjustments for existing scenario part styles to fit new layout */
+        .scenario-slide-content .scenario-part-title,
+        .scenario-slide-content .technical-recommendation-item h4 {
+            font-size: 1.8rem; /* Slightly larger title within slide */
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+             border-bottom: none; /* Remove bottom border as it might look odd here */
+             padding-bottom: 0;
+        }
+        
+        .scenario-slide-content .scenario-description p,
+        .scenario-slide-content .technical-recommendation-item ul li {
+            margin-bottom: 1rem;
+            line-height: 1.7;
+            font-size: 1rem; /* Ensure consistent font size */
+        }
+        
+        .scenario-slide-content .voiceover {
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            font-size: 1.05rem; /* Slightly larger voiceover text */
+            background-color: rgba(0,0,0,0.25); /* Adjust background for overlay */
+        }
+        
+        .scenario-slide-content .ai-effect-description {
+            font-size: 0.9rem;
+            color: rgba(255,255,255,0.75);
+        }
+        .scenario-slide-content .ai-effect-description strong {
+             color: var(--accent-color);
+        }
+         .scenario-slide-content ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            margin-bottom: 1rem;
+            padding-left: 10px; 
+        }
+        .scenario-slide-content ul li {
+            margin-bottom: 0.5rem;
+        }
+        .scenario-slide-content .technical-recommendation-item {
+            background-color: transparent;
+            padding: 0;
+            border: none;
+            margin-bottom: 0;
+        }
+
+        /* New styles for redesigned scenario versions info */
+        .scenario-versions-info {
+            text-align: center;
+            display: block;
+            background-color: rgba(255, 255, 255, 0.07);
+            color: var(--secondary-color);
+            padding: 1.25rem 1.5rem; /* Increased padding */
+            border-radius: 18px; /* Slightly less rounded */
+            font-size: 1.15rem; /* Slightly larger base font */
+            margin: 0 auto 3.5rem auto;
+            max-width: 650px; /* Adjusted max-width */
+            line-height: 1.7; /* Increased line-height for readability */
+        }
+        .scenario-versions-info .main-count {
+            display: block;
+            font-size: 1.3rem; /* Larger font for the main count */
+            font-weight: 500; /* Bolder */
+            margin-bottom: 0.75rem; /* Space before details */
+        }
+        .scenario-versions-info .details {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem; /* Space between horizontal and vertical counts */
+            font-size: 1.1rem; /* Font size for details */
+        }
+        .scenario-versions-info .details span strong {
+            font-family: var(--font-heading); /* Druk for numbers */
+            font-size: 1.4rem; /* Larger numbers */
+            color: var(--accent-color); /* Accent color for numbers */
+            margin-right: 0.25rem;
+        }
+
+        /* For the quote on the intro slide */
+        #intro .scene-description {
+            font-size: 1.1rem; /* Adjusted size */
+            color: var(--secondary-color); /* Ensure white */
+            line-height: 1.5; /* Adjusted line-height */
+            max-width: 400px; /* Adjusted width */
+            text-align: center; /* Reverted to center */
+            margin: 0.5rem auto 2rem auto; /* Keep the block itself centered */
+        }
+
+    </style>
+</head>
+<body>
+    <div class="preloader">
+        <div class="preloader-logo">
+            <span class="preloader-text-red">Тритмент</span>
+            <span class="preloader-text-white">CINQUE</span>
+        </div>
+    </div>
+
+    <header class="scroll-animate fade-in" data-stagger-group="header-items">
+        <div class="header-inner-container">
+            <a href="#intro" class="header-logo-text">Тритмент</a>
+            <nav>
+                <ul>
+                    <li><a href="#about">О проекте</a></li>
+                    <li><a href="#detailed-scenario">Сценарий</a></li>
+                    <li><a href="#gallery">Моушен дизайн</a></li>
+                    <li><a href="#costumes">Костюмы</a></li>
+                    <li><a href="#references">Референсы</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="intro" class="fullscreen-section">
+        <img src="assets/images/C7Z17QGP.jpg" alt="CINQUE" class="fullscreen-image scroll-animate fade-in" data-delay="0.3">
+        <div class="dark-overlay"></div>
+        <div class="content-overlay scroll-animate fade-in" data-stagger-group="intro-content" data-delay="0.5">
+            <div class="scene-tag scroll-animate slide-up" data-stagger-child>СЦЕНАРИЙ ДЛЯ CINQUE</div>
+            
+            <p class="scene-description scroll-animate slide-up" data-stagger-child data-delay="0.2">"Что превращает кусок дерева в предмет, который будет передаваться поколениями?"</p>
+        </div>
+    </section>
+
+    <section id="about" class="about-section scroll-animate slide-up">
+        <div class="about-container" data-stagger-group="about-content">
+            <h2 class="about-heading scroll-animate slide-up" data-stagger-child>Замысел</h2>
+            <p class="about-text scroll-animate slide-up" data-stagger-child data-delay="0.1">Ролик повествует о молодом человеке, который руководит производством стульев, рожденных на стыке двух миров — грубой ковбойской романтики и выверенной технологичности. В каждом изгибе — уважение к традициям мастерских, в каждом стыке — взгляд в будущее. Не просто предмет интерьера, а молчаливый соавтор жизненных историй, людей способных позволить себе продукт такого уровня.</p>
+            
+            <div class="about-grid scroll-animate slide-up" data-stagger-group="about-grid-items" data-delay="0.3">
+                <div class="about-item scroll-animate scale-in" data-stagger-child>
+                    <h3 class="about-item-title scroll-animate slide-up">Концепция</h3>
+                    <p class="scroll-animate slide-up" data-delay="0.1">Показать, как изначальная красота ясеня, пройдя через руки мастера и высокотехнологичную обработку, превращается в уникальный предмет мебели, который становится семейной реликвией и частью истории.</p>
+                </div>
+                <div class="about-item scroll-animate scale-in" data-stagger-child data-delay="0.15">
+                    <h3 class="about-item-title scroll-animate slide-up">Формат и Стиль</h3>
+                    <p class="scroll-animate slide-up" data-delay="0.1">Динамичное открытие в стиле "ADHD-крючок" (0-10 сек) с быстрым монтажом и AI-эффектами, переходящее в более размеренное повествование. Общая длительность 60-70 секунд. Использование AI-моушн дизайна для усиления визуального ряда.</p>
+                </div>
+                <div class="about-item scroll-animate scale-in" data-stagger-child data-delay="0.3">
+                    <h3 class="about-item-title scroll-animate slide-up">Цель</h3>
+                    <p class="scroll-animate slide-up" data-delay="0.1">Создать эмоциональную связь, демонстрируя уникальное сочетание природного материала, технологического совершенства и души, вложенной мастером. Вдохновить на восприятие мебели CINQUE как наследия.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="detailed-scenario" class="about-section">
+        <div class="about-container" data-stagger-group="scenario-content">
+            <h2 class="about-heading scroll-animate slide-up" data-stagger-child style="text-align: center; font-size: 4rem; margin-bottom: 1rem;">СЦЕНАРИЙ</h2>
+            <div class="scenario-versions-info scroll-animate slide-up" data-stagger-child data-delay="0.1">
+                <span class="main-count">Будут созданы <strong>6 версий</strong> видео с разным хронометражом</span>
+                <div class="details">
+                    <span><strong>3</strong> горизонтальных</span>
+                    <span><strong>3</strong> вертикальных</span>
+                </div>
+            </div>
+
+            <div class="scenario-version-block scroll-animate slide-up" data-stagger-child data-delay="0.2">
+                <h3 class="scenario-version-title">ОСНОВНАЯ ВЕРСИЯ (60-70 секунд)</h3>
+
+                <div class="scenario-slide content-left scroll-animate fade-in">
+                    <img src="assets/images/AAIL8AWP.jpg" alt="Фон для сценария 1.1" class="scenario-slide-background">
+                    <div class="scenario-slide-dark-overlay"></div>
+                    <div class="scenario-slide-content">
+                        <h4 class="scenario-part-title">1.&nbsp;УДАРНОЕ ОТКРЫТИЕ - <br>ADHD-КРЮЧОК <br><span style="white-space: nowrap;">(0-10 сек)</span></h4>
+                        <div class="scenario-description">
+                            <p><strong>Кадр 1:</strong> СВЕРХБЫСТРЫЙ МОНТАЖ — 0.5-секундные кадры с рваной динамикой:</p>
+                            <ul>
+                                <li>Кора ясеня крупным планом</li>
+                                <li>Вспышка солнца через крону деревьев</li>
+                                <li>Мотоцикл разрезает туман утреннего леса</li>
+                                <li>Фреза врезается в дерево (искры, опилки)</li>
+                                <li>Руки скользят по изгибу деревянной спинки</li>
+                                <li>Сверкающий медный акцент на стыке деталей стула</li>
+                            </ul>
+                            <p class="ai-effect-description"><strong>AI-эффект 1:</strong> Каждый переход сопровождается "взрывом" световых частиц, каждый новый кадр формируется из частиц предыдущего.</p>
+                            <p><strong>Кадр 2:</strong> ЗАМЕДЛЕНИЕ ТЕМПА — мотоцикл с Михаилом (директором) эффектно останавливается перед современным зданием производства, брызги гравия из-под колес.</p>
+                            <p class="ai-effect-description"><strong>AI-эффект 2:</strong> Брызги гравия превращаются в световые частицы, формирующие едва заметные очертания стула.</p>
+                        </div>
+                        <p class="voiceover"><strong>ЗАКАДРОВЫЙ ГОЛОС</strong><em> (динамичный тон): "Что превращает кусок дерева в предмет, который будет передаваться поколениями?"</em></p>
+                    </div>
+                </div>
+
+                <div class="scenario-slide content-right scroll-animate fade-in">
+                    <img src="assets/images/EQLD2NVL.jpg" alt="Фон для сценария 1.2" class="scenario-slide-background">
+                    <div class="scenario-slide-dark-overlay"></div>
+                    <div class="scenario-slide-content">
+                        <h4 class="scenario-part-title">2.&nbsp;ПЕРЕХОД К <br>ПОВЕСТВОВАНИЮ <br><span style="white-space: nowrap;">(10-15 сек)</span></h4>
+                        <div class="scenario-description">
+                            <p><strong>Кадр 3:</strong> Михаил снимает шлем и решительным шагом направляется к зданию. СЛЕДЯЩАЯ КАМЕРА ведет его сзади и сбоку.</p>
+                            <p><strong>Кадр 4:</strong> Михаил входит в светлое просторное помещение, где мастера работают над деревянными деталями.</p>
+                            <p class="ai-effect-description"><strong>AI-эффект 3:</strong> При его появлении свет в помещении словно становится теплее, появляется легкая золотистая дымка.</p>
+                        </div>
+                        <p class="voiceover"><strong>ЗАКАДРОВЫЙ ГОЛОС</strong><em> (теперь более размеренно): "В мире массового производства истинное мастерство становится редкостью. За каждым выдающимся предметом стоит человек с видением."</em></p>
+                    </div>
+                </div>
+
+                <div class="scenario-slide content-left scroll-animate fade-in">
+                    <img src="assets/images/3aeb9a597ee52f6da72fc6d0d7e30681-gigapixel-low resolution v2-2x.jpg" alt="Фон для сценария 1.3" class="scenario-slide-background">
+                    <div class="scenario-slide-dark-overlay"></div>
+                    <div class="scenario-slide-content">
+                        <h4 class="scenario-part-title">3.&nbsp;ПРИРОДА И <br>МАТЕРИАЛ <br><span style="white-space: nowrap;">(15-25 сек)</span></h4>
+                        <div class="scenario-description">
+                            <p><strong>Кадр 5:</strong> АЭРОСЪЕМКА рощи ясеня на рассвете, туман стелется между стволами.</p>
+                            <p><strong>Кадр 6:</strong> РЕЗКИЙ ПЕРЕХОД к макросъемке — рука Миши проводит по спилу ясеня с характерной текстурой.</p>
+                            <p class="ai-effect-description"><strong>AI-эффект 4:</strong> Текстура древесины на мгновение "оживает" под его пальцами — годовые кольца начинают пульсировать, как на звуковой визуализации.</p>
+                            <p><strong>Кадр 7:</strong> СПЛИТ-СКРИН (3 части) — показывает разные оттенки и текстуры ясеня от светлого до темного.</p>
+                        </div>
+                        <p class="voiceover"><strong>ЗАКАДРОВЫЙ ГОЛОС:</strong><em> "Ясень — не просто древесина. Это характер — прочный, гибкий, с выразительной текстурой, рассказывающей историю десятилетий роста."</em></p>
+                    </div>
+                </div>
+
+                <div class="scenario-slide content-right scroll-animate fade-in">
+                    <img src="assets/images/ee4626a7280ccb856616b40eceef2241.jpg" alt="Фон для сценария 1.4" class="scenario-slide-background">
+                    <div class="scenario-slide-dark-overlay"></div>
+                    <div class="scenario-slide-content">
+                        <h4 class="scenario-part-title">4.&nbsp;ВИДЕНИЕ И <br>ТЕХНОЛОГИИ <br><span style="white-space: nowrap;">(25-35 сек)</span></h4>
+                        <div class="scenario-description">
+                            <p><strong>Кадр 8:</strong> Миша в дизайнерской студии рассматривает чертежи, 3D-модель стула на экране.</p>
+                            <p><strong>Кадр 9:</strong> МОНТАЖНАЯ ПОСЛЕДОВАТЕЛЬНОСТЬ работы станков с ЧПУ — вырезание деталей плавной формы.</p>
+                            <p class="ai-effect-description"><strong>AI-эффект 5:</strong> Траектории движения инструментов оставляют светящиеся следы, формирующие трехмерную проекцию будущего стула.</p>
+                            <p><strong>Кадр 10:</strong> ЗАМЕДЛЕННАЯ СЪЕМКА — фреза вырезает изгиб спинки, древесные частицы красиво разлетаются.</p>
+                        </div>
+                        <p class="voiceover"><strong>ЗАКАДРОВЫЙ ГОЛОС:</strong><em> "От природной формы к функциональному искусству — это путь, в котором технологии становятся продолжением творческой мысли."</em></p>
+                    </div>
+                </div>
+
+                <div class="scenario-slide content-left scroll-animate fade-in">
+                    <img src="assets/images/O6ZW1VF2.jpg" alt="Фон для сценария 1.5" class="scenario-slide-background">
+                    <div class="scenario-slide-dark-overlay"></div>
+                    <div class="scenario-slide-content">
+                        <h4 class="scenario-part-title">5.&nbsp;ЧЕЛОВЕЧЕСКОЕ <br>МАСТЕРСТВО <br><span style="white-space: nowrap;">(35-45 сек)</span></h4>
+                        <div class="scenario-description">
+                            <p><strong>Кадр 11:</strong> КРУПНЫЙ ПЛАН — руки мастера тщательно шлифуют изгиб спинки стула.</p>
+                            <p><strong>Кадр 12:</strong> СЕРИЯ КРУПНЫХ ПЛАНОВ при мягком освещении:</p>
+                            <ul>
+                                <li>Установка медных акцентов на стыке деталей</li>
+                                <li>Полировка поверхности до шелковистого блеска</li>
+                                <li>Крепление кожаной обивки к основанию</li>
+                            </ul>
+                            <p><strong>Кадр 13:</strong> Михаил проверяет качество сборки, проводя пальцами по каждому соединению.</p>
+                        </div>
+                        <p class="voiceover"><strong>ЗАКАДРОВЫЙ ГОЛОС:</strong><em> "Технологии — лишь инструмент. Душу изделию придают человеческие руки."</em></p>
+                    </div>
+                </div>
+
+                <div class="scenario-slide content-right scroll-animate fade-in">
+                    <img src="assets/images/ef24dd616746c3ae74ba56a992b1872a.jpg" alt="Фон для сценария 1.6" class="scenario-slide-background">
+                    <div class="scenario-slide-dark-overlay"></div>
+                    <div class="scenario-slide-content">
+                        <h4 class="scenario-part-title">6.&nbsp;ГОТОВЫЙ <br>ПРОДУКТ <br><span style="white-space: nowrap;">(45-55 сек)</span></h4>
+                        <div class="scenario-description">
+                            <p><strong>Кадр 14:</strong> ДИНАМИЧНАЯ ПРЕЗЕНТАЦИЯ трех моделей стульев:</p>
+                            <ul>
+                                <li>Темный стул с кожаной обивкой в минималистичном интерьере</li>
+                                <li>Светлый барный стул в современной кухне-студии</li>
+                                <li>Стул с тканевой обивкой в уютной библиотеке</li>
+                            </ul>
+                            <p><strong>Кадр 15:</strong> ЗАМЕДЛЕННАЯ СЪЕМКА — человек элегантно садится на стул, момент первого соприкосновения.</p>
+                            <p class="ai-effect-description"><strong>AI-эффект 6:</strong> Визуализация комфорта — легкое свечение в точках эргономичного контакта тела со стулом.</p>
+                        </div>
+                        <p class="voiceover"><strong>ЗАКАДРОВЫЙ ГОЛОС:</strong><em> "Наши стулья — это не обычные предметы. Это произведения искусства, становящиеся частью вашей истории."</em></p>
+                    </div>
+                </div>
+
+                <div class="scenario-slide content-left scroll-animate fade-in">
+                    <img src="assets/images/gigapixel-low resolution v2-2x.png.png" alt="Фон для сценария 1.7" class="scenario-slide-background">
+                    <div class="scenario-slide-dark-overlay"></div>
+                    <div class="scenario-slide-content">
+                        <h4 class="scenario-part-title">7.&nbsp;ФИНАЛ <br><span style="white-space: nowrap;">(55-65 сек)</span></h4>
+                        <div class="scenario-description">
+                            <p><strong>Кадр 16:</strong> Миша в сумерках выходит из мастерской к своему мотоциклу.</p>
+                            <p><strong>Кадр 17:</strong> Миша надевает шлем, заводит мотоцикл и уезжает. Камера поднимается вверх, показывая мастерскую с освещенными окнами на фоне заката.</p>
+                            <p class="ai-effect-description"><strong>AI-эффект 7:</strong> След от мотоцикла трансформируется в плавную линию, повторяющую изгиб спинки фирменного стула.</p>
+                        </div>
+                        <p class="voiceover"><strong>ЗАКАДРОВЫЙ ГОЛОС:</strong><em> "В мире одноразовых вещей мы создаем наследие."</em></p>
+                    </div>
+                </div>
+                
+                <div class="scenario-slide content-right scroll-animate fade-in">
+                    <img src="assets/images/2WCJ6SC8.jpg" alt="Фон для сценария 1.8" class="scenario-slide-background">
+                    <div class="scenario-slide-dark-overlay"></div>
+                    <div class="scenario-slide-content">
+                        <h4 class="scenario-part-title">8.&nbsp;ЛОГОТИП И <br>СЛОГАН <br><span style="white-space: nowrap;">(65-70 сек)</span></h4>
+                        <div class="scenario-description">
+                            <p><strong>Финальная композиция:</strong> Логотип CINQUE появляется из частиц древесины ясеня.</p>
+                            <p><strong>Слоган:</strong> "ИСКУССТВО В КАЖДОЙ ЛИНИИ"</p>
+                            <p><em>Текст проявляется через эффект "рукописного ввода", как будто его рисуют невидимым карандашом</em></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scenario-version-block scroll-animate slide-up" data-stagger-child data-delay="0.3">
+                <h3 class="scenario-version-title">АДАПТАЦИЯ (20-25 секунд) – акцент на динамике и продукте</h3>
+                
+                <div class="scenario-slide content-left scroll-animate fade-in">
+                    <img src="assets/images/AAIL8AWP.jpg" alt="Адаптация - фон 1" class="scenario-slide-background">
+                    <div class="scenario-slide-dark-overlay"></div>
+                    <div class="scenario-slide-content">
+                        <h4 class="scenario-part-title">1.&nbsp;УДАРНОЕ ОТКРЫТИЕ <span style="white-space: nowrap;">(0-5 СЕК)</span></h4>
+                        <div class="scenario-description">
+                            <p><strong>Стремительный монтаж:</strong></p>
+                            <ul>
+                                <li>Мотоцикл в утреннем лесу</li>
+                                <li>Фреза врезается в ясень</li>
+                                <li>Руки мастера полируют изгиб спинки</li>
+                                <li>Медный акцент сверкает в солнечном свете</li>
+                            </ul>
+                            <p class="ai-effect-description"><strong>AI-эффект:</strong> Кадры переходят друг в друга через вихрь древесных частиц</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-slide content-right scroll-animate fade-in">
+                    <img src="assets/images/G7W68SVC.jpg" alt="Адаптация - фон 2" class="scenario-slide-background">
+                    <div class="scenario-slide-dark-overlay"></div>
+                    <div class="scenario-slide-content">
+                        <h4 class="scenario-part-title">2.&nbsp;СУТЬ ПРОЦЕССА <span style="white-space: nowrap;">(5-15 СЕК)</span></h4>
+                        <div class="scenario-description">
+                            <p><strong>Кадр 1:</strong> Михаил изучает текстуру древесины</p>
+                            <p><strong>Кадр 2:</strong> Станок вырезает детали с идеальной точностью</p>
+                            <p><strong>Кадр 3:</strong> Руки мастера собирают стул</p>
+                            <p><strong>Кадр 4:</strong> Три модели стульев в элегантных интерьерах</p>
+                        </div>
+                        <p class="voiceover"><strong>ЗАКАДРОВЫЙ ГОЛОС:</strong><em> "От природы к искусству — путь, в котором технологии и мастерство создают наследие для поколений."</em></p>
+                    </div>
+                </div>
+
+                <div class="scenario-slide content-left scroll-animate fade-in">
+                    <img src="assets/images/195a302ad6b14de6593fb6faeb7df928-gigapixel-low resolution v2-2x.jpg" alt="Адаптация - фон 3" class="scenario-slide-background">
+                    <div class="scenario-slide-dark-overlay"></div>
+                    <div class="scenario-slide-content">
+                        <h4 class="scenario-part-title">3.&nbsp;ФИНАЛ <span style="white-space: nowrap;">(15-25 СЕК)</span></h4>
+                        <div class="scenario-description">
+                            <p><strong>Кадр 5:</strong> Михаил уезжает на мотоцикле, оставляя за собой след, превращающийся в изгиб спинки стула</p>
+                            <p><strong>Кадр 6:</strong> Анимированный логотип CINQUE и слоган "ИСКУССТВО В КАЖДОЙ ЛИНИИ"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="scenario-version-block scroll-animate slide-up" data-stagger-child data-delay="0.4">
+                <h3 class="scenario-version-title">КОРОТКАЯ АДАПТАЦИЯ (10-15 секунд) – МАКСИМАЛЬНАЯ КОНЦЕНТРАЦИЯ</h3>
+
+                <div class="scenario-slide content-right scroll-animate fade-in">
+                    <img src="assets/images/fdaa675131feb51ff6b61f6deda950ed-gigapixel-low resolution v2-2x-faceai v2.jpg" alt="Короткая адаптация - фон 1" class="scenario-slide-background">
+                    <div class="scenario-slide-dark-overlay"></div>
+                    <div class="scenario-slide-content">
+                        <h4 class="scenario-part-title" style="font-size: 1.6rem;">1.&nbsp;СВЕРХКОНЦЕНТРАЦИЯ <span style="white-space: nowrap;">(0-10 СЕК)</span></h4>
+                        <div class="scenario-description">
+                            <p><strong>Кадр 1:</strong> ADHD-монтаж (кадры по 0.3-0.5 секунды):</p>
+                            <ul>
+                                <li>Мотоцикл &rarr; текстура ясеня &rarr; фреза ЧПУ &rarr; руки мастера &rarr; медный акцент &rarr; готовый стул</li>
+                            </ul>
+                        </div>
+                        <p class="voiceover"><strong>ЗАКАДРОВЫЙ ГОЛОС:</strong><em> "Создаем не просто мебель, а историю, которую вы передадите потомкам."</em></p>
+                    </div>
+                </div>
+
+                <div class="scenario-slide content-left scroll-animate fade-in">
+                    <img src="assets/images/XIADOFLS.jpg" alt="Короткая адаптация - фон 2" class="scenario-slide-background">
+                    <div class="scenario-slide-dark-overlay"></div>
+                    <div class="scenario-slide-content">
+                        <h4 class="scenario-part-title">2.&nbsp;ФИНАЛ <span style="white-space: nowrap;">(10-15 СЕК)</span></h4>
+                        <div class="scenario-description">
+                            <p><strong>Кадр 2:</strong> Три модели стульев сменяют друг друга в стильных интерьерах</p>
+                            <p><strong>Кадр 3:</strong> Анимированный логотип CINQUE и слоган "ИСКУССТВО В КАЖДОЙ ЛИНИИ"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="scenario-technical-block scroll-animate slide-up" data-stagger-child data-delay="0.5">
+                <div class="scenario-slide content-right scroll-animate fade-in">
+                    <img src="assets/images/RQF82IEM.jpg" alt="Фон для тех. рекомендаций - Операторские решения" class="scenario-slide-background">
+                    <div class="scenario-slide-dark-overlay"></div>
+                    <div class="scenario-slide-content">
+                        <div class="technical-recommendation-item">
+                            <h4>ОПЕРАТОРСКИЕ РЕШЕНИЯ <br>ДЛЯ НАЧАЛА:</h4>
+                            <ul>
+                                <li>Комбинация стедикама (для мотоцикла) и статичных макро-планов</li>
+                                <li>Использование дрона для динамичных пролетов над рощей</li>
+                                <li>Съемка фрезы и обработки в сверхзамедлении (120-240fps)</li>
+                                <li>Контрастное чередование широких и сверхкрупных планов</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="scenario-slide content-left scroll-animate fade-in">
+                    <img src="assets/images/IOFLZZ8F.jpg" alt="Фон для тех. рекомендаций - Саунд-дизайн" class="scenario-slide-background">
+                    <div class="scenario-slide-dark-overlay"></div>
+                    <div class="scenario-slide-content">
+                        <div class="technical-recommendation-item">
+                            <h4>САУНД-ДИЗАЙН <br>ДЛЯ ВСТУПЛЕНИЯ:</h4>
+                            <ul>
+                                <li>Нарастающий звуковой "удар" для первого кадра</li>
+                                <li>Смешение звуков природы и механических звуков производства</li>
+                                <li>Ритмические перкуссионные элементы, синхронизированные с монтажными склейками</li>
+                                <li>Постепенный переход к более мелодичной основной теме при смене темпа повествования</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="about-section">
+        <div class="about-container">
+            <h2 class="about-heading">МОУШЕН ДИЗАЙН</h2>
+            <p class="about-text">Визуальные референсы отображающие смыслы и стиль рекламного ролика. Эти материалы помогают лучше представить атмосферу и стиль будущего видео. Часть визуалов может быть внедрена и в саму работу, но первоочередно это пример настроения которое возникает от дизайна с уклоном в ретро стиль поп арта 90-х</p>
+            
+            <div class="gallery">
+                <div class="gallery-item">
+                    <img src="assets/images/7a25262f621d43bb79cf43d3f6d41026.jpg" alt="Технологии">
+                    <div class="gallery-caption">
+                        <div class="gallery-title">Природа</div>
+                        <p class="gallery-text">Изображение природы и леса, демонстрирующее исходный материал для создания мебели.</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="assets/images/ef24dd616746c3ae74ba56a992b1872a.jpg" alt="Дерево и текстура">
+                    <div class="gallery-caption">
+                        <div class="gallery-title">Материалы</div>
+                        <p class="gallery-text">Текстура дерева и материалы, используемые в процессе производства.</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="assets/images/1cb282ec851d08f6bdd79c3458cc85b3.jpg" alt="Стиль мебели">
+                    <div class="gallery-caption">
+                        <div class="gallery-title">Стиль</div>
+                        <p class="gallery-text">Элегантное сочетание мебели с элементами интерьера.</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="assets/images/128c989a34e4ba2e22c9fbe870279cfbe.jpg" alt="Дизайн мебели">
+                    <div class="gallery-caption">
+                        <div class="gallery-title">Дизайн</div>
+                        <p class="gallery-text">Процесс проектирования и разработки дизайна мебели.</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="assets/images/ee4626a7280ccb856616b40eceef2241.jpg" alt="Природа">
+                    <div class="gallery-caption">
+                        <div class="gallery-title">Производство</div>
+                        <p class="gallery-text">Современные технологии и оборудование для создания мебели.</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <img src="assets/images/41e6e92d71dc7513ab2bdf4e7b78bddc.jpg" alt="Интерьер 1">
+                    <div class="gallery-caption">
+                        <div class="gallery-title">Интерьер</div>
+                        <p class="gallery-text">Готовая мебель в современном интерьере.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="costumes" class="about-section">
+        <div class="about-container">
+            <h2 class="about-heading">КОСТЮМЫ</h2>
+            <p class="about-text">Эстетика образов вдохновлена американской мечтой и духом свободы. Молодой предприниматель, развивающий консервативный бизнес, привносит новаторское видение, смело сочетая классику с элементами ковбойского стиля: шляпы, кожаные куртки и брутальность мотоциклов. Это символизирует смелость, индивидуальность и стремление к успеху на своих условиях.</p>
+            <p class="about-text">Рабочие на производстве предстают как истинные мастера своего дела, одетые в аккуратные, продуманные костюмы. Их облик подчеркивает ручную работу и внимание к каждой детали, создавая ощущение эксклюзивности и высокого ремесла, вложенного в каждое изделие CINQUE.</p>
+            
+            <div class="gallery-container costumes-gallery-container scroll-animate fade-in" data-stagger-group>
+                <div class="gallery-item costume-item scroll-animate scale-in" data-stagger-child>
+                    <img src="assets/images/I41M2ZDM.jpg" alt="Образ предпринимателя">
+                    <div class="gallery-caption">
+                        <div>Предприниматель в ковбойской шляпе и стильной куртке, символ американской мечты и успеха.</div>
+                    </div>
+                </div>
+                <div class="gallery-item costume-item scroll-animate scale-in" data-stagger-child>
+                    <img src="assets/images/6737219b3fdec8238b0059af7df34edb.jpg" alt="Мотоцикл символ свободы">
+                    <div class="gallery-caption">
+                        <div>Мотоцикл как символ свободы, олицетворяющий образ независимого и целостного предпринимателя</div>
+                    </div>
+                </div>
+                <div class="gallery-item costume-item scroll-animate scale-in" data-stagger-child>
+                    <img src="assets/images/18c2ca57ecdbf9c919cc1161fc8b004a.jpg" alt="Мастер своего дела">
+                    <div class="gallery-caption">
+                        <div>Ухоженные костюмы для работников и мастеров - фартук и чистая водолазка или рубашка</div>
+                    </div>
+                </div>
+                <div class="gallery-item costume-item scroll-animate scale-in" data-stagger-child>
+                    <img src="assets/images/2ef4257ed2ef0b08f95b33f1f3bc751a.jpg" alt="Мастера в костюмах">
+                    <div class="gallery-caption">
+                        <div>Мастера в элегантных, но практичных костюмах, подчеркивающих их профессионализм и внимание к деталям.</div>
+                    </div>
+                </div>
+                <div class="gallery-item costume-item scroll-animate scale-in" data-stagger-child>
+                    <img src="assets/images/8a97975a792205d469f4058156327ec0.jpg" alt="Классика и современность в одежде">
+                    <div class="gallery-caption">
+                        <div>Сочетание классики и современных элементов в одежде мастеров, отражающее высокое качество продукции.</div>
+                    </div>
+                </div>
+                <!-- Образ 6 был удален -->
+                <!-- Удалена карточка с alt="Образ 7" и изображением d5d7adee6d0d721f4f2d824b70aed5d7.jpg -->
+            </div>
+        </div>
+    </section>
+
+    <section id="references" class="about-section">
+        <div class="about-container">
+            <h2 class="about-heading">РЕФЕРЕНСЫ</h2>
+            <p class="about-text">Ключевые визуальные материалы для рекламного ролика, позволяющие увидеть общее настроение и атмосферу видео.</p>
+            
+            <!-- Контейнер для слайдера -->
+            <div class="slider-container">
+                <div class="slider">
+                    <div class="slide"><img src="assets/images/I3Y2AUBJ.jpg" alt="Референс 1"></div>
+                    <div class="slide"><img src="assets/images/vd.jpg" alt="Референс 2"></div>
+                    <div class="slide"><img src="assets/images/AAIL8AWP.jpg" alt="Референс 3"></div>
+                    <div class="slide"><img src="assets/images/fdaa675131feb51ff6b61f6deda950ed-gigapixel-low resolution v2-2x-faceai v2.jpg" alt="Референс 4"></div>
+                    <div class="slide"><img src="assets/images/gigapixel-low resolution v2-2x.png.png" alt="Референс 5"></div>
+                    <div class="slide"><img src="assets/images/195a302ad6b14de6593fb6faeb7df928-gigapixel-low resolution v2-2x.jpg" alt="Референс 6"></div>
+                    <div class="slide"><img src="assets/images/3aeb9a597ee52f6da72fc6d0d7e30681-gigapixel-low resolution v2-2x.jpg" alt="Референс 7"></div>
+                    <div class="slide"><img src="assets/images/G7W68SVC.jpg" alt="Референс 8"></div>
+                    <div class="slide"><img src="assets/images/O6ZW1VF2.jpg" alt="Референс 9"></div>
+                    <div class="slide"><img src="assets/images/IOFLZZ8F.jpg" alt="Референс 10"></div>
+                    <div class="slide"><img src="assets/images/G3FNZE5J.jpg" alt="Референс 11"></div>
+                    <div class="slide"><img src="assets/images/FBQHMBA4.jpg" alt="Референс 12"></div>
+                    <div class="slide"><img src="assets/images/RQF82IEM.jpg" alt="Референс 13"></div>
+                    <div class="slide"><img src="assets/images/E7QNQX70.jpg" alt="Референс 14"></div>
+                    <div class="slide"><img src="assets/images/51XILLZH.jpg" alt="Референс 15"></div>
+                    <div class="slide"><img src="assets/images/2WCJ6SC8.jpg" alt="Референс 16"></div>
+                    <div class="slide"><img src="assets/images/18c2ca57ecdbf9c919cc1161fc8b004a.jpg" alt="Референс 17"></div>
+                    <div class="slide"><img src="assets/images/2ef4257ed2ef0b08f95b33f1f3bc751a.jpg" alt="Референс 18"></div>
+                    <div class="slide"><img src="assets/images/XIADOFLS.jpg" alt="Референс 19"></div>
+                    <div class="slide"><img src="assets/images/0R9K3ZCR.jpg" alt="Референс 20"></div>
+                    <div class="slide"><img src="assets/images/split.jpg" alt="Референс 21"></div>
+                    <div class="slide"><img src="assets/images/Q84FSOXD.jpg" alt="Референс 22"></div>
+                    <div class="slide"><img src="assets/images/Z2MVYPP2.jpg" alt="Референс 23"></div>
+                    <div class="slide"><img src="assets/images/ER6XS0MV.jpg" alt="Референс 24"></div>
+                    <div class="slide"><img src="assets/images/Q8NNMTZ2.jpg" alt="Референс 25"></div>
+                    <div class="slide"><img src="assets/images/I41M2ZDM.jpg" alt="Референс 26"></div>
+                    <div class="slide"><img src="assets/images/EQLD2NVL.jpg" alt="Референс 27"></div>
+                    <div class="slide"><img src="assets/images/6737219b3fdec8238b0059af7df34edb.jpg" alt="Референс 28"></div>
+                    <div class="slide"><img src="assets/images/09a1b8b7d2a3cb7827cfb11a9212e653.jpg" alt="Референс 29"></div>
+                    <div class="slide"><img src="assets/images/color.jpg" alt="Референс 30"></div>
+                    <div class="slide"><img src="assets/images/NSEE3ZAY.jpg" alt="Референс 31"></div>
+                    <div class="slide"><img src="assets/images/07d5f9cebe157e1be3b4ce8448cf93130.jpg" alt="Референс 32"></div>
+                    <div class="slide"><img src="assets/images/51ff3aa93843b5a2bc2d94b7b0e18dc49.jpg" alt="Референс 33"></div>
+                    <div class="slide"><img src="assets/images/C7Z17QGP.jpg" alt="Референс 34"></div>
+                    <div class="slide"><img src="assets/images/E4M2S5ZF.jpg" alt="Референс 35"></div>
+                    <div class="slide"><img src="assets/images/128c989a34e4ba2e22c9fbe870279cfbe.jpg" alt="Референс 36"></div>
+                    <div class="slide"><img src="assets/images/be55b53a1f7dfb7c1f02dec9cdb76e67.jpg" alt="Референс 37"></div>
+                    <div class="slide"><img src="assets/images/_.jpeg" alt="Референс 38"></div>
+                    <div class="slide"><img src="assets/images/a91966d3e6d6f1a64f5f8d6d6fef7730.jpg" alt="Референс 39"></div>
+                    <div class="slide"><img src="assets/images/ee4ff07e1b6c671389f7045f24164c97.jpg" alt="Референс 40"></div>
+                    <div class="slide"><img src="assets/images/c7b6483760f8e4855184323b7003dde6.jpg" alt="Референс 41"></div>
+                    <div class="slide"><img src="assets/images/5c5518b31f2033853ab6257f5316abff.jpg" alt="Референс 42"></div>
+                    <div class="slide"><img src="assets/images/025d6f22a9286e8140b3a28ce2419a91.jpg" alt="Референс 43"></div>
+                    <div class="slide"><img src="assets/images/ee4626a7280ccb856616b40eceef2241.jpg" alt="Референс 44"></div>
+                    <div class="slide"><img src="assets/images/28c989a34e4ba2e22c9fbe870279cfbe.jpg" alt="Референс 45"></div>
+                    <div class="slide"><img src="assets/images/41e6e92d71dc7513ab2bdf4e7b78bddc.jpg" alt="Референс 46"></div>
+                    <div class="slide"><img src="assets/images/87deed3d616b91cdc4493f020cfc4457.jpg" alt="Референс 47"></div>
+                    <div class="slide"><img src="assets/images/a6014ea984629e54f9e278efc4ff93f3.jpg" alt="Референс 48"></div>
+                    <div class="slide"><img src="assets/images/00331cdfe1e346a9039243209c5dab5a.jpg" alt="Референс 49"></div>
+                    <div class="slide"><img src="assets/images/1dca106d47f1da2da6956c706dcb32ab.jpg" alt="Референс 50"></div>
+                    <div class="slide"><img src="assets/images/a6932e6972b72d84f9857663539776d0.jpg" alt="Референс 51"></div>
+                    <div class="slide"><img src="assets/images/32109f462af62679e5b988f168400731.jpg" alt="Референс 52"></div>
+                    <div class="slide"><img src="assets/images/8a97975a792205d469f4058156327ec0.jpg" alt="Референс 53"></div>
+                    <div class="slide"><img src="assets/images/25b630261a71ef77d86d04727c2e4835.jpg" alt="Референс 54"></div>
+                    <div class="slide"><img src="assets/images/65e510766b2055f2528df96a5a72be48.jpg" alt="Референс 55"></div>
+                    <div class="slide"><img src="assets/images/0c69b373e5030811471c74c7c2425675.jpg" alt="Референс 56"></div>
+                    <div class="slide"><img src="assets/images/eac0e45d14350dc0065a9f44c4b38108.jpg" alt="Референс 57"></div>
+                    <div class="slide"><img src="assets/images/99d8f6062c130ec6a52749cc0a0e58f0.jpg" alt="Референс 58"></div>
+                    <div class="slide"><img src="assets/images/ef24dd616746c3ae74ba56a992b1872a.jpg" alt="Референс 59"></div>
+                    <div class="slide"><img src="assets/images/1cb282ec851d08f6bdd79c3458cc85b3.jpg" alt="Референс 60"></div>
+                    <div class="slide"><img src="assets/images/7a25262f621d43bb79cf43d3f6d41026.jpg" alt="Референс 61"></div>
+                    <div class="slide"><img src="assets/images/Снимок экрана 2025-05-13 в 15.53.33.png" alt="Референс 62"></div>
+                    <div class="slide"><img src="assets/images/Снимок экрана 2025-05-13 в 15.53.16.png" alt="Референс 63"></div>
+                    <div class="slide"><img src="assets/images/Снимок экрана 2025-05-13 в 15.52.58.png" alt="Референс 64"></div>
+                    <div class="slide"><img src="assets/images/Снимок экрана 2025-05-13 в 15.52.09.png" alt="Референс 65"></div>
+                    <div class="slide"><img src="assets/images/Снимок экрана 2025-05-13 в 15.51.05.png" alt="Референс 66"></div>
+                    <div class="slide"><img src="assets/images/Снимок экрана 2025-05-13 в 15.50.07.png" alt="Референс 67"></div>
+                    <div class="slide"><img src="assets/images/Снимок экрана 2025-05-13 в 15.48.45.png" alt="Референс 68"></div>
+                    <div class="slide"><img src="assets/images/Снимок экрана 2025-05-13 в 15.47.34.png" alt="Референс 69"></div>
+                    <div class="slide"><img src="assets/images/Снимок экрана 2025-05-13 в 15.43.27.png" alt="Референс 70"></div>
+                    <div class="slide"><img src="assets/images/Снимок экрана 2025-05-13 в 15.43.16.png" alt="Референс 71"></div>
+                </div>
+                <button class="slider-prev">&#10094;</button>
+                <button class="slider-next">&#10095;</button>
+            </div>
+            
+            <!-- Превью изображений -->
+            <div class="slider-thumbnails">
+                <div class="thumbnail active" data-index="0"><img src="assets/images/I3Y2AUBJ.jpg" alt="Референс 1"></div>
+                <div class="thumbnail" data-index="1"><img src="assets/images/vd.jpg" alt="Референс 2"></div>
+                <div class="thumbnail" data-index="2"><img src="assets/images/AAIL8AWP.jpg" alt="Референс 3"></div>
+                <div class="thumbnail" data-index="3"><img src="assets/images/fdaa675131feb51ff6b61f6deda950ed-gigapixel-low resolution v2-2x-faceai v2.jpg" alt="Референс 4"></div>
+                <div class="thumbnail" data-index="4"><img src="assets/images/gigapixel-low resolution v2-2x.png.png" alt="Референс 5"></div>
+                <div class="thumbnail" data-index="5"><img src="assets/images/195a302ad6b14de6593fb6faeb7df928-gigapixel-low resolution v2-2x.jpg" alt="Референс 6"></div>
+                <div class="thumbnail" data-index="6"><img src="assets/images/3aeb9a597ee52f6da72fc6d0d7e30681-gigapixel-low resolution v2-2x.jpg" alt="Референс 7"></div>
+                <div class="thumbnail" data-index="7"><img src="assets/images/G7W68SVC.jpg" alt="Референс 8"></div>
+                <div class="thumbnail" data-index="8"><img src="assets/images/O6ZW1VF2.jpg" alt="Референс 9"></div>
+                <div class="thumbnail" data-index="9"><img src="assets/images/IOFLZZ8F.jpg" alt="Референс 10"></div>
+                <div class="thumbnail" data-index="10"><img src="assets/images/G3FNZE5J.jpg" alt="Референс 11"></div>
+                <div class="thumbnail" data-index="11"><img src="assets/images/FBQHMBA4.jpg" alt="Референс 12"></div>
+                <div class="thumbnail" data-index="12"><img src="assets/images/RQF82IEM.jpg" alt="Референс 13"></div>
+                <div class="thumbnail" data-index="13"><img src="assets/images/E7QNQX70.jpg" alt="Референс 14"></div>
+                <div class="thumbnail" data-index="14"><img src="assets/images/51XILLZH.jpg" alt="Референс 15"></div>
+                <div class="thumbnail" data-index="15"><img src="assets/images/2WCJ6SC8.jpg" alt="Референс 16"></div>
+                <div class="thumbnail" data-index="16"><img src="assets/images/18c2ca57ecdbf9c919cc1161fc8b004a.jpg" alt="Референс 17"></div>
+                <div class="thumbnail" data-index="17"><img src="assets/images/2ef4257ed2ef0b08f95b33f1f3bc751a.jpg" alt="Референс 18"></div>
+                <div class="thumbnail" data-index="18"><img src="assets/images/XIADOFLS.jpg" alt="Референс 19"></div>
+                <div class="thumbnail" data-index="19"><img src="assets/images/0R9K3ZCR.jpg" alt="Референс 20"></div>
+                <div class="thumbnail" data-index="20"><img src="assets/images/split.jpg" alt="Референс 21"></div>
+                <div class="thumbnail" data-index="21"><img src="assets/images/Q84FSOXD.jpg" alt="Референс 22"></div>
+                <div class="thumbnail" data-index="22"><img src="assets/images/Z2MVYPP2.jpg" alt="Референс 23"></div>
+                <div class="thumbnail" data-index="23"><img src="assets/images/ER6XS0MV.jpg" alt="Референс 24"></div>
+                <div class="thumbnail" data-index="24"><img src="assets/images/Q8NNMTZ2.jpg" alt="Референс 25"></div>
+                <div class="thumbnail" data-index="25"><img src="assets/images/I41M2ZDM.jpg" alt="Референс 26"></div>
+                <div class="thumbnail" data-index="26"><img src="assets/images/EQLD2NVL.jpg" alt="Референс 27"></div>
+                <div class="thumbnail" data-index="27"><img src="assets/images/6737219b3fdec8238b0059af7df34edb.jpg" alt="Референс 28"></div>
+                <div class="thumbnail" data-index="28"><img src="assets/images/09a1b8b7d2a3cb7827cfb11a9212e653.jpg" alt="Референс 29"></div>
+                <div class="thumbnail" data-index="29"><img src="assets/images/color.jpg" alt="Референс 30"></div>
+                <div class="thumbnail" data-index="30"><img src="assets/images/NSEE3ZAY.jpg" alt="Референс 31"></div>
+                <div class="thumbnail" data-index="31"><img src="assets/images/07d5f9cebe157e1be3b4ce8448cf93130.jpg" alt="Референс 32"></div>
+                <div class="thumbnail" data-index="32"><img src="assets/images/51ff3aa93843b5a2bc2d94b7b0e18dc49.jpg" alt="Референс 33"></div>
+                <div class="thumbnail" data-index="33"><img src="assets/images/C7Z17QGP.jpg" alt="Референс 34"></div>
+                <div class="thumbnail" data-index="34"><img src="assets/images/E4M2S5ZF.jpg" alt="Референс 35"></div>
+                <div class="thumbnail" data-index="35"><img src="assets/images/128c989a34e4ba2e22c9fbe870279cfbe.jpg" alt="Референс 36"></div>
+                <div class="thumbnail" data-index="36"><img src="assets/images/be55b53a1f7dfb7c1f02dec9cdb76e67.jpg" alt="Референс 37"></div>
+                <div class="thumbnail" data-index="37"><img src="assets/images/_.jpeg" alt="Референс 38"></div>
+                <div class="thumbnail" data-index="38"><img src="assets/images/a91966d3e6d6f1a64f5f8d6d6fef7730.jpg" alt="Референс 39"></div>
+                <div class="thumbnail" data-index="39"><img src="assets/images/ee4ff07e1b6c671389f7045f24164c97.jpg" alt="Референс 40"></div>
+                <div class="thumbnail" data-index="40"><img src="assets/images/c7b6483760f8e4855184323b7003dde6.jpg" alt="Референс 41"></div>
+                <div class="thumbnail" data-index="41"><img src="assets/images/5c5518b31f2033853ab6257f5316abff.jpg" alt="Референс 42"></div>
+                <div class="thumbnail" data-index="42"><img src="assets/images/025d6f22a9286e8140b3a28ce2419a91.jpg" alt="Референс 43"></div>
+                <div class="thumbnail" data-index="43"><img src="assets/images/ee4626a7280ccb856616b40eceef2241.jpg" alt="Референс 44"></div>
+                <div class="thumbnail" data-index="44"><img src="assets/images/28c989a34e4ba2e22c9fbe870279cfbe.jpg" alt="Референс 45"></div>
+                <div class="thumbnail" data-index="45"><img src="assets/images/41e6e92d71dc7513ab2bdf4e7b78bddc.jpg" alt="Референс 46"></div>
+                <div class="thumbnail" data-index="46"><img src="assets/images/87deed3d616b91cdc4493f020cfc4457.jpg" alt="Референс 47"></div>
+                <div class="thumbnail" data-index="47"><img src="assets/images/a6014ea984629e54f9e278efc4ff93f3.jpg" alt="Референс 48"></div>
+                <div class="thumbnail" data-index="48"><img src="assets/images/00331cdfe1e346a9039243209c5dab5a.jpg" alt="Референс 49"></div>
+                <div class="thumbnail" data-index="49"><img src="assets/images/1dca106d47f1da2da6956c706dcb32ab.jpg" alt="Референс 50"></div>
+                <div class="thumbnail" data-index="50"><img src="assets/images/a6932e6972b72d84f9857663539776d0.jpg" alt="Референс 51"></div>
+                <div class="thumbnail" data-index="51"><img src="assets/images/32109f462af62679e5b988f168400731.jpg" alt="Референс 52"></div>
+                <div class="thumbnail" data-index="52"><img src="assets/images/8a97975a792205d469f4058156327ec0.jpg" alt="Референс 53"></div>
+                <div class="thumbnail" data-index="53"><img src="assets/images/25b630261a71ef77d86d04727c2e4835.jpg" alt="Референс 54"></div>
+                <div class="thumbnail" data-index="54"><img src="assets/images/65e510766b2055f2528df96a5a72be48.jpg" alt="Референс 55"></div>
+                <div class="thumbnail" data-index="55"><img src="assets/images/0c69b373e5030811471c74c7c2425675.jpg" alt="Референс 56"></div>
+                <div class="thumbnail" data-index="56"><img src="assets/images/eac0e45d14350dc0065a9f44c4b38108.jpg" alt="Референс 57"></div>
+                <div class="thumbnail" data-index="57"><img src="assets/images/99d8f6062c130ec6a52749cc0a0e58f0.jpg" alt="Референс 58"></div>
+                <div class="thumbnail" data-index="58"><img src="assets/images/ef24dd616746c3ae74ba56a992b1872a.jpg" alt="Референс 59"></div>
+                <div class="thumbnail" data-index="59"><img src="assets/images/1cb282ec851d08f6bdd79c3458cc85b3.jpg" alt="Референс 60"></div>
+                <div class="thumbnail" data-index="60"><img src="assets/images/7a25262f621d43bb79cf43d3f6d41026.jpg" alt="Референс 61"></div>
+                <div class="thumbnail" data-index="61"><img src="assets/images/Снимок экрана 2025-05-13 в 15.53.33.png" alt="Референс 62"></div>
+                <div class="thumbnail" data-index="62"><img src="assets/images/Снимок экрана 2025-05-13 в 15.53.16.png" alt="Референс 63"></div>
+                <div class="thumbnail" data-index="63"><img src="assets/images/Снимок экрана 2025-05-13 в 15.52.58.png" alt="Референс 64"></div>
+                <div class="thumbnail" data-index="64"><img src="assets/images/Снимок экрана 2025-05-13 в 15.52.09.png" alt="Референс 65"></div>
+                <div class="thumbnail" data-index="65"><img src="assets/images/Снимок экрана 2025-05-13 в 15.51.05.png" alt="Референс 66"></div>
+                <div class="thumbnail" data-index="66"><img src="assets/images/Снимок экрана 2025-05-13 в 15.50.07.png" alt="Референс 67"></div>
+                <div class="thumbnail" data-index="67"><img src="assets/images/Снимок экрана 2025-05-13 в 15.48.45.png" alt="Референс 68"></div>
+                <div class="thumbnail" data-index="68"><img src="assets/images/Снимок экрана 2025-05-13 в 15.47.34.png" alt="Референс 69"></div>
+                <div class="thumbnail" data-index="69"><img src="assets/images/Снимок экрана 2025-05-13 в 15.43.27.png" alt="Референс 70"></div>
+                <div class="thumbnail" data-index="70"><img src="assets/images/Снимок экрана 2025-05-13 в 15.43.16.png" alt="Референс 71"></div>
+            </div>
+            
+            <!-- Дополнительные способы навигации -->
+            <div class="references-controls">
+                <button class="reference-close-btn" title="Закрыть просмотр (Esc)">Закрыть</button>
+                <div class="reference-counter">1 / 9</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="scroll-indicator">
+        <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 12L0 2L2 0L10 8L18 0L20 2L10 12Z" fill="white"/>
+        </svg>
+    </div>
+
+    <!-- Полноэкранный режим просмотра -->
+    <div class="fullscreen-view">
+        <button class="fullscreen-close">&times;</button>
+        <div class="fullscreen-image-container">
+            <img src="" alt="" class="fullscreen-image">
+        </div>
+        <div class="thumbnails-container">
+            <!-- Превью будут добавляться динамически -->
+        </div>
+        <div class="fullscreen-nav">
+            <button class="fullscreen-prev">&#10094; Предыдущий</button>
+            <div class="fullscreen-counter">1 / 9</div>
+            <button class="fullscreen-next">Следующий &#10095;</button>
+        </div>
+    </div>
+
+    <!-- Просмотрщик изображений -->
+    <div class="lightbox">
+        <button class="lightbox-close">&times;</button>
+        <div class="lightbox-main">
+            <img src="" alt="" class="lightbox-image">
+        </div>
+        <div class="lightbox-nav">
+            <button class="lightbox-prev">Предыдущий</button>
+            <div class="lightbox-counter">1 / 9</div>
+            <button class="lightbox-next">Следующий</button>
+        </div>
+        <div class="lightbox-thumbnails"></div>
+    </div>
+
+    <footer>
+        <div class="container footer-container">
+            <div class="footer-content">
+                <div class="footer-left">
+                    <div class="footer-logo">Артем Шуткин</div>
+                </div>
+                <div class="footer-right">
+                    <nav class="footer-nav">
+                        <a href="#about">О проекте</a>
+                        <a href="#detailed-scenario">Сценарий</a>
+                        <a href="#gallery">Смыслы</a>
+                        <a href="#costumes">Костюмы</a>
+                        <a href="#references">Референсы</a>
+                    </nav>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Все права защищены</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Preloader Logic ---
+            const preloader = document.querySelector('.preloader');
+            if (preloader) {
+                setTimeout(() => {
+                    preloader.classList.add('hidden');
+                }, 1500);
+            }
+
+            // --- Intersection Observer for Scroll Animations ---
+            const observerOptions = {
+                root: null, 
+                rootMargin: '0px 0px -150px 0px', // Trigger 150px before element is fully in view from bottom
+                threshold: 0.1 
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        const baseDelay = parseFloat(target.dataset.delay) || 0;
+                        
+                        setTimeout(() => {
+                            target.classList.add('is-visible');
+                        }, baseDelay * 1000);
+
+                        if (target.dataset.staggerGroup) {
+                            const childrenToStagger = target.querySelectorAll('[data-stagger-child]');
+                            childrenToStagger.forEach((child, childIndex) => {
+                                const childDelay = parseFloat(child.dataset.delay) || 0;
+                                const staggerOrderDelay = 0.10; 
+                                
+                                setTimeout(() => {
+                                    child.classList.add('is-visible');
+                                }, (baseDelay + childDelay + childIndex * staggerOrderDelay) * 1000);
+                            });
+                        }
+                        observer.unobserve(target);
+                    }
+                });
+            };
+
+            const scrollObserver = new IntersectionObserver(observerCallback, observerOptions);
+            const elementsToAnimate = document.querySelectorAll('.scroll-animate');
+            elementsToAnimate.forEach(el => scrollObserver.observe(el));
+
+            // --- Плавная прокрутка к следующей секции ---
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            if (scrollIndicator) {
+                scrollIndicator.addEventListener('click', () => {
+                    const firstSection = document.querySelector('section'); // More reliable way to get the first section
+                    const nextSection = firstSection ? firstSection.nextElementSibling : null;
+                    // Ensure nextElementSibling is also a section before scrolling
+                    if (nextSection && nextSection.tagName === 'SECTION') { 
+                        nextSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            }
+        
+            // --- Обновление активного состояния меню при прокрутке ---
+            const navLinks = document.querySelectorAll('header nav a, footer nav a'); // Select nav links from both header and footer
+            const sections = document.querySelectorAll('section[id]'); // Select only sections that have an ID for navigation
+            
+            if (navLinks.length > 0 && sections.length > 0) {
+                window.addEventListener('scroll', () => {
+                    let currentSectionId = '';
+                    let minDistance = Infinity;
+
+                    sections.forEach(section => {
+                        const sectionTop = section.offsetTop;
+                        const sectionHeight = section.clientHeight;
+                        const sectionBottom = sectionTop + sectionHeight;
+                        const scrollPosition = window.pageYOffset;
+                        const viewportCenter = scrollPosition + window.innerHeight / 2;
+
+                        // Check if section is in view (more robustly)
+                        if (scrollPosition < sectionBottom && scrollPosition + window.innerHeight > sectionTop) {
+                            // Find the section closest to the center of the viewport
+                            const distanceToCenter = Math.abs(sectionTop + sectionHeight / 2 - viewportCenter);
+                            if (distanceToCenter < minDistance) {
+                                minDistance = distanceToCenter;
+                                currentSectionId = section.getAttribute('id');
+                            }
+                        } 
+                    });
+                
+                    navLinks.forEach(link => {
+                        link.classList.remove('active');
+                        const linkHref = link.getAttribute('href');
+                        if (linkHref === `#${currentSectionId}`) {
+                            link.classList.add('active');
+                        }
+                    });
+                });
+                 // Trigger scroll event once to set initial active link
+                window.dispatchEvent(new Event('scroll'));
+            }
+        
+            // --- Управление слайдером референсов ---
+            const slider = document.querySelector('.slider');
+            if (slider) {
+                const slides = slider.querySelectorAll('.slide');
+                const prevButton = document.querySelector('.slider-prev');
+                const nextButton = document.querySelector('.slider-next');
+                const sliderThumbnails = document.querySelectorAll('.slider-thumbnails .thumbnail');
+                const referenceCounter = document.querySelector('.reference-counter');
+                
+                let currentSlideIndex = 0;
+                const totalSlides = slides.length;
+
+                function updateSliderDisplay() {
+                    if (slides.length === 0) return;
+                    slider.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+                    sliderThumbnails.forEach((thumb, idx) => {
+                        thumb.classList.toggle('active', idx === currentSlideIndex);
+                    });
+                    if (referenceCounter) {
+                        referenceCounter.textContent = `${currentSlideIndex + 1} / ${totalSlides}`;
+                    }
+                }
+
+                if (prevButton) {
+                    prevButton.addEventListener('click', () => {
+                        if (totalSlides === 0) return;
+                        currentSlideIndex = (currentSlideIndex > 0) ? currentSlideIndex - 1 : totalSlides - 1;
+                        updateSliderDisplay();
+                    });
+                }
+
+                if (nextButton) {
+                    nextButton.addEventListener('click', () => {
+                        if (totalSlides === 0) return;
+                        currentSlideIndex = (currentSlideIndex < totalSlides - 1) ? currentSlideIndex + 1 : 0;
+                        updateSliderDisplay();
+                    });
+                }
+
+                sliderThumbnails.forEach(thumb => {
+                    thumb.addEventListener('click', () => {
+                        if (totalSlides === 0) return;
+                        currentSlideIndex = parseInt(thumb.dataset.index);
+                        updateSliderDisplay();
+                    });
+                });
+                
+                if (totalSlides > 0) {
+                   updateSliderDisplay();
+                }
+            }
+
+            // --- Общий функционал лайтбокса ---
+            const lightbox = document.querySelector('.lightbox');
+            if (lightbox) { 
+                const lightboxImage = lightbox.querySelector('.lightbox-image');
+                const lightboxClose = lightbox.querySelector('.lightbox-close');
+                const lightboxPrev = lightbox.querySelector('.lightbox-prev');
+                const lightboxNext = lightbox.querySelector('.lightbox-next');
+                const lightboxCounter = lightbox.querySelector('.lightbox-counter');
+                const lightboxThumbnailsContainer = lightbox.querySelector('.lightbox-thumbnails');
+
+                let currentLightboxItems = [];
+                let currentLightboxActiveIndex = 0;
+
+                function updateLightbox() {
+                    if (!lightboxImage || !lightboxThumbnailsContainer) return; // Add checks for elements
+                    if (currentLightboxItems.length === 0 || currentLightboxActiveIndex < 0 || currentLightboxActiveIndex >= currentLightboxItems.length) {
+                        lightboxImage.src = ''; 
+                        lightboxImage.alt = '';
+                        if(lightboxCounter) lightboxCounter.textContent = '0 / 0';
+                        lightboxThumbnailsContainer.innerHTML = '';
+                        return;
+                    }
+                    const item = currentLightboxItems[currentLightboxActiveIndex];
+                    lightboxImage.src = item.src;
+                    lightboxImage.alt = item.alt || '';
+                    if(lightboxCounter) lightboxCounter.textContent = `${currentLightboxActiveIndex + 1} / ${currentLightboxItems.length}`;
+
+                    lightboxThumbnailsContainer.innerHTML = ''; 
+                    currentLightboxItems.forEach((thumbItem, idx) => {
+                        const thumbDiv = document.createElement('div');
+                        thumbDiv.className = 'lightbox-thumbnail';
+                        if (idx === currentLightboxActiveIndex) {
+                            thumbDiv.classList.add('active');
+                        }
+                        thumbDiv.innerHTML = `<img src="${thumbItem.src}" alt="${thumbItem.alt || ''}">`;
+                        thumbDiv.addEventListener('click', () => {
+                            currentLightboxActiveIndex = idx;
+                            updateLightbox();
+                        });
+                        lightboxThumbnailsContainer.appendChild(thumbDiv);
+                    });
+                }
+
+                function openGenericLightbox(items, startIndex) {
+                    currentLightboxItems = items.map(imgElement => ({
+                        src: imgElement.getAttribute('src'),
+                        alt: imgElement.getAttribute('alt') || ''
+                    }));
+                    currentLightboxActiveIndex = startIndex;
+                    updateLightbox();
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+
+                function closeGenericLightbox() {
+                    lightbox.classList.remove('active');
+                    document.body.style.overflow = '';
+                    currentLightboxItems = []; 
+                    currentLightboxActiveIndex = 0;
+                    updateLightbox(); 
+                }
+
+                if (lightboxClose) lightboxClose.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    closeGenericLightbox();
+                });
+                
+                lightbox.addEventListener('click', (e) => {
+                    if (e.target === lightbox) {
+                        closeGenericLightbox();
+                    }
+                });
+
+                if (lightboxPrev) lightboxPrev.addEventListener('click', () => {
+                    if (currentLightboxItems.length === 0) return;
+                    currentLightboxActiveIndex = (currentLightboxActiveIndex > 0) ? currentLightboxActiveIndex - 1 : currentLightboxItems.length - 1;
+                    updateLightbox();
+                });
+
+                if (lightboxNext) lightboxNext.addEventListener('click', () => {
+                    if (currentLightboxItems.length === 0) return;
+                    currentLightboxActiveIndex = (currentLightboxActiveIndex < currentLightboxItems.length - 1) ? currentLightboxActiveIndex + 1 : 0;
+                    updateLightbox();
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (!lightbox.classList.contains('active')) return;
+                    if (e.key === 'Escape' && lightboxClose) lightboxClose.click();
+                    if (e.key === 'ArrowLeft' && lightboxPrev) lightboxPrev.click();
+                    if (e.key === 'ArrowRight' && lightboxNext) lightboxNext.click();
+                });
+
+                const imagesForLightbox = document.querySelectorAll('.slider .slide img, #gallery .gallery-item img, #costumes .gallery-item img');
+                imagesForLightbox.forEach(img => {
+                    img.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        
+                        let galleryImages = [];
+                        let clickedImageIndex = -1;
+
+                        const parentSection = img.closest('section[id]'); // Find parent section
+
+                        if (parentSection) {
+                            if (parentSection.id === 'references') { 
+                                const sliderParent = img.closest('.slider');
+                                if (sliderParent) {
+                                    galleryImages = Array.from(sliderParent.querySelectorAll('.slide img'));
+                                }
+                            } else if (parentSection.id === 'gallery') { 
+                                const galleryDiv = parentSection.querySelector('.gallery');
+                                if (galleryDiv) {
+                                    galleryImages = Array.from(galleryDiv.querySelectorAll('.gallery-item img'));
+                                }
+                            } else if (parentSection.id === 'costumes') { 
+                                const costumeGalleryContainer = parentSection.querySelector('.gallery-container.costumes-gallery-container');
+                                if (costumeGalleryContainer) {
+                                    galleryImages = Array.from(costumeGalleryContainer.querySelectorAll('.gallery-item img'));
+                                }
+                            }
+                        }
+                        
+                        clickedImageIndex = galleryImages.indexOf(img);
+
+                        if (galleryImages.length > 0 && clickedImageIndex !== -1) {
+                           openGenericLightbox(galleryImages, clickedImageIndex);
+                        }
+                    });
+                });
+            }
+            
+            // --- Hover Effects (CSS driven, but JS might be needed for complex ones) ---
+            /*
+            document.querySelectorAll('a.animated-underline').forEach(link => {
+                // CSS: 
+                // a.animated-underline { position: relative; text-decoration: none; }
+                // a.animated-underline::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px; background: currentColor; transition: width 0.3s ease-out; }
+                // a.animated-underline:hover::after { width: 100%; }
+            });
+            */
+        });
+    </script>
+</body>
+</html> 
